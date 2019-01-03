@@ -1,9 +1,8 @@
 // 0. Global variable declaration
 var apiKey = "0r2J0GtSqRoCktl3A01SEFoCffJRRGOT";
-var topics = ["Ariana Grande", "Justin Bieber", "Taylor Swift", "Shawn Mendes", "Selena Gomez", "Lorde", "Adele", "Halsey", "Charlie Puth", "Demi Lovato", "Camila Cabello", "Alessia Cara", "Sam Smith", "Ed Sheeran"]; //current pop artists from my brain
-var topics1 = ["Ed Sheeran", "Beyonce", "Camila Cabello", "Drake", "Childish Gambino", "Post Malone", "Cardi B", "Maroon 5", "Ariana Grande", "Travis Scott"]; //artists with #1 songs in 2018" https://en.wikipedia.org/wiki/List_of_Billboard_Hot_100_number-one_singles_of_2018
-var topics2 = ["Drake", "Post Malone", "Ed Sheeran", "Taylor Swift", "Cardi B", "Imagine Dragons", "BTS", "Bruno Mars", "Camila Cabello", "Migos", "Travis Scott", "Eminem", "Ariana Grande", "Kendrick Lamar", "Maroon 5", "Juice WRLD", "Khalid", "Dua Lipa", "Halsey", "P!nk", "J. Cole", "The Weeknd", "Justin Timberlake", "Sam Smith", "Nicki Minaj"]; //top 25 artists of 2018: https://www.billboard.com/charts/year-end/2018/top-artists
-var colors = ["#f69e0d", "#83a710", "#027c59", "#008ac2", "#9d4b93", "#fe4e95", "#d02121", "#fc421a"];
+var topics = ["Drake", "Post Malone", "Ed Sheeran", "Taylor Swift", "Cardi B", "Imagine Dragons", "BTS", "Bruno Mars", "Camila Cabello", "Migos", "Travis Scott", "Eminem", "Ariana Grande", "Kendrick Lamar", "Maroon 5", "Juice WRLD", "Khalid", "Dua Lipa", "Halsey", "P!nk", "J. Cole", "The Weeknd", "Justin Timberlake", "Sam Smith", "Nicki Minaj"]; //top 25 artists of 2018: https://www.billboard.com/charts/year-end/2018/top-artists
+    // used by gif buttons (1.) and gif cards (4.)
+var colors = ["#f69e0d", "#83a710", "#027c59", "#008ac2", "#9d4b93", "#fe4e95", "#d02121", "#fc421a"]; // color styling for buttons/gifs
 var buttonColorsIterator = 0;
 var gifColorsIterator = 0;
 
@@ -13,19 +12,19 @@ function addButton(keyword) { // creates and appends buttons with search keyword
         .addClass("btn btn-sm gif-btn m-1") // gif class for click event
         .attr("type", "button")
         .attr("data-name", keyword)
-        .attr("style", "background-color: " + colors[buttonColorsIterator] + ";")
+        .attr("style", "background-color: " + colors[buttonColorsIterator] + ";") // background color styling
         .text(keyword);
     $("#button-display").append($button);
     
-    if (buttonColorsIterator < (colors.length - 1)) {
+    if (buttonColorsIterator < (colors.length - 1)) { // moves to next color
         buttonColorsIterator++;
     } else {
         buttonColorsIterator = 0;
     }
 }
 
-for (var i = 0; i < topics2.length; i++) { // loops through pre-existing array to create initial buttons
-    addButton(topics2[i]);
+for (var i = 0; i < topics.length; i++) { // loops through pre-existing array to create initial buttons
+    addButton(topics[i]);
 }
 
 // 2. Button click events
@@ -59,7 +58,7 @@ function displayImages(response) {
     response.data.forEach(function(image) {
         var $card = $("<div>")
         .addClass("card card-body text-center")
-        .attr("style", "background-color: " + colors[gifColorsIterator] + ";")
+        .attr("style", "background-color: " + colors[gifColorsIterator] + ";") // background color styling
         var $img = $("<img>")
             .attr("src", image.images.original.url)
             .addClass("img-fluid gif")
@@ -72,7 +71,7 @@ function displayImages(response) {
 
         $("#gif-display").append($card);
 
-        if (gifColorsIterator < (colors.length - 1)) {
+        if (gifColorsIterator < (colors.length - 1)) { // moves to next color
             gifColorsIterator++;
         } else {
             gifColorsIterator = 0;
