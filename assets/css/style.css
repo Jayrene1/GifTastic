@@ -1,0 +1,28 @@
+.card img {
+    width: 100%;
+}
+
+.jumbotron {
+    background-image: url("../images/header-bg.jpg");
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+.jumbotron h1 {
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: #2b2d30;
+}
+
+#button-display button {
+    color: #fff;
+    font-weight: 500;
+}
+
+.card-body {
+    padding: 0.4rem !important;
+}
+
+body {
+    background-color: #2b2d30;
+}
