@@ -20,9 +20,36 @@
 }
 
 .card-body {
-    padding: 0.4rem !important;
+    padding: 0.35rem !important;
 }
 
 body {
     background-color: #2b2d30;
+}
+
+small {
+    color: #d2dae6;
+}
+
+.fa-star {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    font-size: 2rem;
+}
+
+.fa-star:hover {
+    color: #fff !important;
+}
+
+#add {
+    background-color:	#008ac2;
+    color: #fff;
+    font-weight: 600;
+}
+
+#favorites {
+    background-color: 	#FFD700;
+    color: #2b2d30;
+    font-weight: 600;
 }

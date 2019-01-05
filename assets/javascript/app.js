@@ -6,6 +6,7 @@ var colors = ["#f69e0d", "#83a710", "#027c59", "#008ac2", "#9d4b93", "#fe4e95", 
 var buttonColorsIterator = 0;
 var gifColorsIterator = 0;
 
+
 // 1. Generate GIF buttons
 function addButton(keyword) { // creates and appends buttons with search keyword passed in
     var $button = $("<button>")
@@ -41,7 +42,8 @@ function giphy() {
     var search = $(this).data("name"); 
     console.log("You selected: " + search);
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=" + apiKey + "&limit=10&rating=y&rating=g&rating=pg";
-
+    console.log(queryURL);
+    
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -65,9 +67,20 @@ function displayImages(response) {
             .attr("data-animate", image.images.original.url)
             .attr("data-still", image.images.original_still.url);
         var $rating = $("<small>")
-            .addClass("card-text text-muted")
+            .addClass("card-text")
             .text("Rating: " + image.rating.toUpperCase());
-        $card.append($img).append($rating);
+        
+        if(favorites.indexOf(image.id) == -1){ // styles favorite icon based on whether it's been favorited before
+            var $favorite = $("<i class='far fa-star'></i>")
+        } else {
+            var $favorite = $("<i class='fas fa-star'></i>")
+        }
+
+        $favorite
+            .attr("data-id", image.id)
+            .attr("style", "color: " + colors[gifColorsIterator] + ";"); // adds fav button with matching color
+
+        $card.append($img).append($rating).append($favorite);
 
         $("#gif-display").append($card);
 
@@ -92,3 +105,45 @@ function pause() {
 }
 
 // 6. "Add to Favorites" feature
+var favorites = JSON.parse(localStorage.getItem("favorites")); // local array to store id's of favorited gifs
+
+if (!Array.isArray(favorites)) {
+    favorites = [];
+}
+
+$(document).on("click", '.fa-star', function () {
+    $(this).toggleClass('far');     // styles favorite button on click to show solid star
+    $(this).toggleClass('fas');     // toggles above style back to regular star
+    favorite($(this).attr("data-id")); // calls favorite function and passes in chosen gif's id
+});
+
+function favorite(id) { // stores and removes id's of favorited gifs
+    console.log("you favorited gif id: " + id);
+    console.log("favorites list before: " + favorites);
+    
+    var index = favorites.indexOf(id);
+
+    if (index == -1) {
+        favorites.push(id);
+        console.log("favorites list after: " + favorites);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    } else {
+        favorites.splice(index, 1);
+        console.log("removed from favorites: " + favorites);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+
+}
+
+$("#favorites").on("click", function() { // when favorites button clicked, replaces images with favorites only
+    var queryURL = "https://api.giphy.com/v1/gifs?ids=" + favorites + "&api_key=" + apiKey;
+    console.log(queryURL);
+        
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response);
+        displayImages(response);
+    })
+});
